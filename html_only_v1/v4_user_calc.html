@@ -71,6 +71,34 @@
             background-color: #45a049;
             border: 4px black double;
         }
+
+        /* Inactive button styles */
+        .button-container button:disabled {
+            background-color: red;
+            cursor: not-allowed;
+        }
+
+        /* Button hover when inactive */
+        .button-container button:disabled:hover {
+            background-color: red;
+            border: 2px solid darkred;
+        }
+
+        /* Tooltip for the "Calculate" button */
+        .button-container button:disabled:hover::after {
+            content: "Fill the required fields, please";
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 5px;
+            border-radius: 5px;
+            font-size: 12px;
+            white-space: nowrap;
+        }
+
         .button-group {
             display: flex;
             justify-content: space-evenly;
@@ -119,70 +147,15 @@
             <!-- Client Name and Deal/Contract Number Fields -->
             <div class="form-group">
                 <label for="client_name">Client Name</label>
-                <input type="text" id="client_name" name="client_name" maxlength="50" placeholder="Enter client name (max 50 characters)">
+                <input type="text" id="client_name" name="client_name" maxlength="50" placeholder="Enter client name-max 20 characters">
+            </div>
+             <div class="form-group">
+                <label for="client_id">Client PIC (EIK)</label>
+                <input type="text" id="client_id" name="client_id" maxlength="15" placeholder="Enter client PIC/EIK (max 15 characters)">
             </div>
             <div class="form-group">
                 <label for="deal_number">Deal/Contract Number</label>
-                <input type="text" id="deal_number" name="deal_number" maxlength="20" placeholder="Enter deal/contract number (max 20 characters)">
-            </div>
-
-            <!-- Parameters Dropdowns (on a single row) -->
-            <div class="form-group">
-                <label for="parameter1">Parameter 1</label>
-                <select id="parameter1" name="parameter1" onchange="validateForm()">
-                     <option value="" disabled selected>Select a value</option>
-                    <option value="0">0</option>
-                    <option value="3">3</option>
-                    <option value="6">6</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="parameter2">Parameter 2</label>
-                <select id="parameter2" name="parameter2" onchange="validateForm()">
-                     <option value="" disabled selected>Select a value</option>
-                    <option value="0">0</option>
-                    <option value="3">3</option>
-                    <option value="6">6</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="parameter3">Parameter 3</label>
-                <select id="parameter3" name="parameter3" onchange="validateForm()">
-                     <option value="" disabled selected>Select a value</option>
-                    <option value="0">0</option>
-                    <option value="3">3</option>
-                    <option value="6">6</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="parameter4">Parameter 4</label>
-                <select id="parameter4" name="parameter4" onchange="validateForm()">
-                     <option value="" disabled selected>Select a value</option>
-                    <option value="0">0</option>
-                    <option value="3">3</option>
-                    <option value="6">6</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="parameter5">Parameter 5</label>
-                <select id="parameter5" name="parameter5" onchange="validateForm()">
-                     <option value="" disabled selected>Select a value</option>
-                    <option value="0">0</option>
-                    <option value="3">3</option>
-                    <option value="6">6</option>
-                </select>
-            </div>
-
-            <!-- Total Score Field -->
-            <div class="form-group">
-                <label for="total_score">Total Score</label>
-                <input type="text" id="total_score" name="total_score" readonly>
-            </div>
-
-            <!-- Decision Field (Read-only) -->
-            <div class="form-group">
-                <label for="decision">Decision</label>
-                <input type="text" id="decision" name="decision" value="Not Set" readonly>
+                <input type="text" id="deal_number" name="deal_number" maxlength="20" placeholder="Deal/contract number-max 10 characters">
             </div>
 
             <!-- Prepared By Fields -->
@@ -193,6 +166,65 @@
             <div class="form-group">
                 <label for="prepared_by_position">Prepared By (Position)</label>
                 <input type="text" id="prepared_by_position" name="prepared_by_position" placeholder="Enter position">
+            </div>
+
+            <!-- Parameters Dropdowns (on a single row) -->
+            <div class="form-group">
+                <label for="parameter1">Parameter 1</label>
+                <select id="parameter1" name="parameter1" onchange="validateForm()">
+                    <option value="" disabled selected>Required* :Select a value</option>
+                    <option value="0">0</option>
+                    <option value="3">3</option>
+                    <option value="6">6</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="parameter2">Parameter 2</label>
+                <select id="parameter2" name="parameter2" onchange="validateForm()">
+                    <option value="" disabled selected>Required* :Select a value</option>
+                    <option value="0">0</option>
+                    <option value="3">3</option>
+                    <option value="6">6</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="parameter3">Parameter 3</label>
+                <select id="parameter3" name="parameter3" onchange="validateForm()">
+                    <option value="" disabled selected>Required* :Select a value</option>
+                    <option value="0">0</option>
+                    <option value="3">3</option>
+                    <option value="6">6</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="parameter4">Parameter 4</label>
+                <select id="parameter4" name="parameter4" onchange="validateForm()">
+                    <option value="" disabled selected>Required* :Select a value</option>
+                    <option value="0">0</option>
+                    <option value="3">3</option>
+                    <option value="6">6</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="parameter5">Parameter 5</label>
+                <select id="parameter5" name="parameter5" onchange="validateForm()">
+                    <option value="" disabled selected>Required* :Select a value</option>
+                    <option value="0">0</option>
+                    <option value="3">3</option>
+                    <option value="6">6</option>
+                </select>
+            </div>
+
+            <!-- Total Score Field -->
+            <div class="form-group">
+                <label for="total_score">Total Score</label>
+                <input type="text" id="total_score" name="total_score" readonly placeholder="Complete the fields and click Calculate">
+            </div>
+
+            <!-- Decision Field (Read-only) -->
+            <div class="form-group">
+                <label for="decision">Decision</label>
+                <input type="text" id="decision" name="decision" value="Not Set" readonly>
             </div>
 
             <!-- Calculate and Print Buttons Container -->
@@ -206,7 +238,7 @@
     </div>
 
     <script>
-        // Function to check if all parameters are selected
+        // Function to check if all required fields and parameters are selected
         function validateForm() {
             // Check if all parameters are selected
             let allSelected = true;
@@ -218,7 +250,16 @@
                 }
             }
 
-            // Enable/Disable buttons based on whether all parameters are selected
+            // Check if Client Name, Client PIC, and Prepared By Name are filled
+            let clientName = document.getElementById("client_name").value.trim();
+            let clientPIC = document.getElementById("client_id").value.trim();
+            let preparedByName = document.getElementById("prepared_by_name").value.trim();
+
+            if (clientName === "" || clientPIC === "" || preparedByName === "") {
+                allSelected = false;
+            }
+
+            // Enable/Disable buttons based on whether all fields are filled
             if (allSelected) {
                 document.getElementById("calculateButton").disabled = false;
                 document.getElementById("printButton").disabled = false;
