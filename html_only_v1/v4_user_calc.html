@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Decision Matrix</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .form-container {
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            background-color: #2196F3;
+            box-sizing: border-box;
+            page-break-inside: avoid;
+            height: 100%;
+        }
+        h2 {
+            text-align: center;
+            font-size: 18px;
+            margin: 0 0 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .form-group label {
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 5px;
+            width: 35%;
+            margin-right: 10px;
+        }
+        .form-group select,
+        .form-group input {
+            width: 60%;
+            padding: 8px;
+            font-size: 14px;
+            margin-top: 0;
+            box-sizing: border-box;
+            height: 36px;
+        }
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .button-container button {
+            padding: 10px 20px;
+            font-size: 14px;
+            background-color: white;
+            color: black;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            margin: 10px;
+            opacity: 0.5; /* Make the buttons appear disabled initially */
+        }
+        .button-container button.active {
+            opacity: 1; /* Make the buttons fully visible when active */
+            cursor: pointer;
+        }
+        .button-container button:hover {
+            background-color: #45a049;
+            border: 4px black double;
+        }
+        .button-group {
+            display: flex;
+            justify-content: space-evenly;
+        }
+
+        /* Prevent page breaks and optimize for printing */
+        @media print {
+            body {
+                margin: 0;
+                padding: 0;
+            }
+            .form-container {
+                padding: 15px;
+                max-width: 100%;
+                height: auto;
+                border-radius: 0;
+            }
+            .form-group {
+                margin-bottom: 10px;
+            }
+            .form-group input,
+            .form-group select {
+                font-size: 14px;
+            }
+            button {
+                display: none;
+            }
+            .button-container {
+                display: none;
+            }
+            @page {
+                size: A4;
+                margin: 20mm;
+            }
+            .form-container {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="form-container">
+        <h2>Decision Matrix</h2>
+        <form id="decision-form">
+            <!-- Client Name and Deal/Contract Number Fields -->
+            <div class="form-group">
+                <label for="client_name">Client Name</label>
+                <input type="text" id="client_name" name="client_name" maxlength="50" placeholder="Enter client name (max 50 characters)">
+            </div>
+            <div class="form-group">
+                <label for="deal_number">Deal/Contract Number</label>
+                <input type="text" id="deal_number" name="deal_number" maxlength="20" placeholder="Enter deal/contract number (max 20 characters)">
+            </div>
+
+            <!-- Parameters Dropdowns (on a single row) -->
+            <div class="form-group">
+                <label for="parameter1">Parameter 1</label>
+                <select id="parameter1" name="parameter1" onchange="validateForm()">
+                     <option value="" disabled selected>Select a value</option>
+                    <option value="0">0</option>
+                    <option value="3">3</option>
+                    <option value="6">6</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="parameter2">Parameter 2</label>
+                <select id="parameter2" name="parameter2" onchange="validateForm()">
+                     <option value="" disabled selected>Select a value</option>
+                    <option value="0">0</option>
+                    <option value="3">3</option>
+                    <option value="6">6</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="parameter3">Parameter 3</label>
+                <select id="parameter3" name="parameter3" onchange="validateForm()">
+                     <option value="" disabled selected>Select a value</option>
+                    <option value="0">0</option>
+                    <option value="3">3</option>
+                    <option value="6">6</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="parameter4">Parameter 4</label>
+                <select id="parameter4" name="parameter4" onchange="validateForm()">
+                     <option value="" disabled selected>Select a value</option>
+                    <option value="0">0</option>
+                    <option value="3">3</option>
+                    <option value="6">6</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="parameter5">Parameter 5</label>
+                <select id="parameter5" name="parameter5" onchange="validateForm()">
+                     <option value="" disabled selected>Select a value</option>
+                    <option value="0">0</option>
+                    <option value="3">3</option>
+                    <option value="6">6</option>
+                </select>
+            </div>
+
+            <!-- Total Score Field -->
+            <div class="form-group">
+                <label for="total_score">Total Score</label>
+                <input type="text" id="total_score" name="total_score" readonly>
+            </div>
+
+            <!-- Decision Field (Read-only) -->
+            <div class="form-group">
+                <label for="decision">Decision</label>
+                <input type="text" id="decision" name="decision" value="Not Set" readonly>
+            </div>
+
+            <!-- Prepared By Fields -->
+            <div class="form-group">
+                <label for="prepared_by_name">Prepared By (Name)</label>
+                <input type="text" id="prepared_by_name" name="prepared_by_name" placeholder="Enter name">
+            </div>
+            <div class="form-group">
+                <label for="prepared_by_position">Prepared By (Position)</label>
+                <input type="text" id="prepared_by_position" name="prepared_by_position" placeholder="Enter position">
+            </div>
+
+            <!-- Calculate and Print Buttons Container -->
+            <div class="button-container">
+                <div class="button-group">
+                    <button type="button" id="calculateButton" onclick="calculateTotal()" disabled>Calculate</button>
+                    <button id="printButton" onclick="printPage()" disabled>Print</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // Function to check if all parameters are selected
+        function validateForm() {
+            // Check if all parameters are selected
+            let allSelected = true;
+            for (let i = 1; i <= 5; i++) {
+                let param = document.getElementById(`parameter${i}`);
+                if (param.value === "") {
+                    allSelected = false;
+                    break;
+                }
+            }
+
+            // Enable/Disable buttons based on whether all parameters are selected
+            if (allSelected) {
+                document.getElementById("calculateButton").disabled = false;
+                document.getElementById("printButton").disabled = false;
+                document.getElementById("calculateButton").classList.add("active");
+                document.getElementById("printButton").classList.add("active");
+            } else {
+                document.getElementById("calculateButton").disabled = true;
+                document.getElementById("printButton").disabled = true;
+                document.getElementById("calculateButton").classList.remove("active");
+                document.getElementById("printButton").classList.remove("active");
+            }
+        }
+
+        // Function to calculate the total score
+        function calculateTotal() {
+            // Get the values of all parameters
+            let p1 = parseInt(document.getElementById("parameter1").value) || 0;
+            let p2 = parseInt(document.getElementById("parameter2").value) || 0;
+            let p3 = parseInt(document.getElementById("parameter3").value) || 0;
+            let p4 = parseInt(document.getElementById("parameter4").value) || 0;
+            let p5 = parseInt(document.getElementById("parameter5").value) || 0;
+
+            // Calculate the total score
+            let totalScore = p1 + p2 + p3 + p4 + p5;
+
+            // Set the total score in the input field
+            document.getElementById("total_score").value = totalScore;
+
+            // Set the decision based on total score
+            let decision = "";
+            if (totalScore >= 20) {
+                decision = "Positive";
+            } else if (totalScore <= 10) {
+                decision = "Negative";
+            } else {
+                decision = "Arbitrary";
+            }
+
+            // Set the decision in the input field
+            document.getElementById("decision").value = decision;
+        }
+
+        // Function to trigger print action
+        function printPage() {
+            window.print();
+        }
+
+        // Initial validation when the page loads
+        window.onload = function() {
+            validateForm();
+        };
+    </script>
+
+</body>
+</html>
