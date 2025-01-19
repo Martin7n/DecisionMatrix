@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parameter Score Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        label {
+            font-size: 16px;
+            margin-right: 10px;
+        }
+        select {
+            padding: 5px 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+        .button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 20px;
+            width: 100%;
+        }
+        .button:hover {
+            background-color: #45a049;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 10px;
+            font-size: 18px;
+            text-align: center;
+        }
+        .score-bar {
+            height: 20px;
+            width: 100%;
+            margin-top: 10px;
+            background-color: #e4e4e4;
+            border-radius: 10px;
+        }
+        .score-bar-fill {
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.3s ease-in-out;
+        }
+        .circular-progress-container {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            margin: 30px auto;
+        }
+        .circular-progress {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: conic-gradient(
+                #4CAF50 0% 0%, 
+                #FFC107 0% 0%, 
+                #F44336 0% 100%
+            );
+            border-radius: 50%;
+            transition: background 0.3s ease-in-out;
+        }
+        .circular-progress-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+        .print-btn {
+            margin-top: 20px;
+            display: block;
+            padding: 10px;
+            background-color: #2196F3;
+            color: white;
+            text-align: center;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .print-btn:hover {
+            background-color: #1E88E5;
+        }
+        .user-info {
+            font-size: 14px;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #666;
+        }
+
+        /* Print Styles */
+        @media print {
+            body {
+                margin: 0;
+                padding: 20px;
+            }
+            .container {
+                box-shadow: none;
+                width: 100%;
+                padding: 0;
+            }
+            .button, .print-btn {
+                display: none;
+            }
+            .circular-progress {
+                display: none; /* Hide circular progress in print */
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Parameter Score Calculator</h1>
+    <form id="calculator-form">
+        <!-- Dropdowns for parameters -->
+        <label for="paramA">Parameter A:</label>
+        <select id="paramA" name="paramA">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select><br>
+
+        <label for="paramB">Parameter B:</label>
+        <select id="paramB" name="paramB">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select><br>
+
+        <label for="paramC">Parameter C:</label>
+        <select id="paramC" name="paramC">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select><br>
+
+        <label for="paramD">Parameter D:</label>
+        <select id="paramD" name="paramD">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select><br>
+
+        <label for="paramE">Parameter E:</label>
+        <select id="paramE" name="paramE">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select><br>
+
+        <button type="button" class="button" onclick="calculateScore()">Calculate Score</button>
+    </form>
+
+    <div class="result" id="result"></div>
+
+    <!-- Circular Progress Visualization -->
+    <div class="circular-progress-container">
+        <div id="circularProgress" class="circular-progress">
+            <div class="circular-progress-text" id="scoreText">0%</div>
+        </div>
+    </div>
+
+    <div class="print-btn" onclick="printDocument()">Print</div>
+</div>
+
+<script>
+    function calculateScore() {
+        const paramA = parseInt(document.getElementById('paramA').value);
+        const paramB = parseInt(document.getElementById('paramB').value);
+        const paramC = parseInt(document.getElementById('paramC').value);
+        const paramD = parseInt(document.getElementById('paramD').value);
+        const paramE = parseInt(document.getElementById('paramE').value);
+
+        const totalScore = paramA + paramB + paramC + paramD + paramE;
+        const maxScore = 5 * 5; // Max score for 5 parameters each with 5 levels
+
+        let decision = '';
+        let barColor = ''; // Color for progress bar
+        if (totalScore <= 10) {
+            decision = 'Negative decision';
+            barColor = 'red'; // Red for negative
+        } else if (totalScore <= 20) {
+            decision = 'Neutral decision';
+            barColor = 'orange'; // Orange for neutral
+        } else {
+            decision = 'Positive decision';
+            barColor = 'green'; // Green for positive
+        }
+
+        const percentage = (totalScore / maxScore) * 100;
+
+        // Update result, progress bar color, and progress width
+        document.getElementById('result').innerText = `Total Score: ${totalScore} (${decision})`;
+        
+        // Update Circular Progress
+        const circularProgress = document.getElementById('circularProgress');
+        const scoreText = document.getElementById('scoreText');
+        
+        if (percentage <= 33) {
+            circularProgress.style.background = `conic-gradient(#F44336 ${percentage}% 0%, #e4e4e4 ${percentage}% 100%)`;
+            circularProgress.style.transition = "background 0.3s ease-in-out";
+        } else if (percentage <= 66) {
+            circularProgress.style.background = `conic-gradient(#FFC107 ${percentage}% 0%, #e4e4e4 ${percentage}% 100%)`;
+            circularProgress.style.transition = "background 0.3s ease-in-out";
+        } else {
+            circularProgress.style.background = `conic-gradient(#4CAF50 ${percentage}% 0%, #e4e4e4 ${percentage}% 100%)`;
+            circularProgress.style.transition = "background 0.3s ease-in-out";
+        }
+
+        scoreText.innerText = `${Math.round(percentage)}%`;
+    }
+
+    function printDocument() {
+        window.print();
+    }
+</script>
+
+</body>
+</html>

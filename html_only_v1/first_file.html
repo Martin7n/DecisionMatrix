@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Decision Matrix</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 50vw; /* Increased width to accommodate 10 fields */
+            margin: auto;
+            padding: 20px;
+            background-color: #117ed6;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #fff;
+        }
+        .user-info-form {
+            max-width: 50vw;
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+        .user-info-form label {
+            font-size: 10px;
+            margin-bottom: 5px;
+            color: #fff;
+        }
+        .user-info-form input {
+            padding: 8px 15px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+        label {
+            font-size: 16px;
+            margin-right: 10px;
+        }
+        select {
+            padding: 5px 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+        .flex-container {
+            display: flex;
+            /* justify-content: space-around; */
+            gap: 2px;
+        }
+        .flex-container .column {
+            flex: 1;
+        }
+        .button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 20px;
+            width: 100%;
+        }
+        .button:hover {
+            background-color: #45a049;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 10px;
+            font-size: 18px;
+            text-align: center;
+        }
+        .score-bar {
+            height: 20px;
+            width: 100%;
+            margin-top: 10px;
+            background-color: #e4e4e4;
+            border-radius: 10px;
+        }
+        .score-bar-fill {
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.3s ease-in-out;
+        }
+        .print-btn {
+            margin-top: 20px;
+            display: block;
+            padding: 10px;
+            background-color: #2196F3;
+            color: white;
+            text-align: center;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .print-btn:hover {
+            background-color: #1E88E5;
+        }
+        .user-info {
+            font-size: 14px;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #666;
+        }
+
+        /* Print Styles */
+        @media print {
+            body {
+                margin: 0;
+                padding: 20px;
+            }
+            .container {
+                box-shadow: none;
+                width: 100%;
+                padding: 0;
+            }
+            .button, .print-btn {
+                display: none;
+            }
+            #scoreBar {
+                display: block !important;
+                width: 100% !important;
+                height: 20px !important;
+                margin-top: 10px !important;
+            }
+            .score-bar-fill {
+                height: 100% !important;
+                transition: none !important;
+                background-color: #4CAF50 !important;
+                width: 0% !important; /* Set default width to 0% for print */
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+  
+    <h1>Decision Matrix</h1>
+
+    <!-- User Information Form -->
+    <div class="user-info-form">
+        <label for="userName">Name:</label>
+        <input type="text" id="userName" placeholder="Customer name">
+
+        <label for="userType">Additional information</label>
+        <input type="text" id="userType" placeholder="Additional information">
+
+        <label for="userId">ID Number:</label>
+        <input type="text" id="userId" placeholder="Client ID/Deal ID">
+    </div>
+
+    <!-- Decision Parameters Form -->
+    <form id="calculator-form">
+        <div class="flex-container">
+            <!-- Left Column -->
+            <div class="column">
+                <label for="paramA">Parameter A:</label>
+                <select id="paramA" name="paramA">
+                    <option value="1">10000</option>
+                    <option value="2">200000000</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select><br>
+
+                <label for="paramB">Parameter B:</label>
+                <select id="paramB" name="paramB">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select><br>
+
+                <label for="paramC">Parameter C:</label>
+                <select id="paramC" name="paramC">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select><br>
+
+                <label for="paramD">Parameter D:</label>
+                <select id="paramD" name="paramD">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select><br>
+
+                <label for="paramE">Parameter E:</label>
+                <select id="paramE" name="paramE">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select><br>
+            </div>
+
+            <!-- Right Column -->
+            <div class="column">
+                <label for="paramF">Parameter F:</label>
+                <select id="paramF" name="paramF">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select><br>
+
+                <label for="paramG">Parameter G:</label>
+                <select id="paramG" name="paramG">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select><br>
+
+                <label for="paramH">Parameter H:</label>
+                <select id="paramH" name="paramH">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select><br>
+
+                <label for="paramI">Parameter I:</label>
+                <select id="paramI" name="paramI">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select><br>
+
+                <label for="paramJ">Parameter J:</label>
+                <select id="paramJ" name="paramJ">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select><br>
+            </div>
+        </div>
+
+        <button type="button" class="button" onclick="calculateScore()">Calculate Score</button>
+    </form>
+
+    <div class="result" id="result"></div>
+    <div id="scoreBar" class="score-bar">
+        <div id="scoreBarFill" class="score-bar-fill" style="width: 0%;"></div>
+    </div>
+
+    <div class="print-btn" onclick="printDocument()">Print</div>
+</div>
+
+<script>
+    function calculateScore() {
+        const params = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
+        let totalScore = 0;
+
+        params.forEach(param => {
+            totalScore += parseInt(document.getElementById(`param${param}`).value);
+        });
+
+        const maxScore = 10 * 5; // Max score for 10 parameters, each with 5 levels
+
+        let decision = '';
+        let barColor = ''; // Color for progress bar
+        if (totalScore <= 25) {
+            decision = 'Negative decision';
+            barColor = 'red'; // Red for negative
+        } else if (totalScore <= 50) {
+            decision = 'Neutral decision';
+            barColor = 'orange'; // Orange for neutral
+        } else {
+            decision = 'Positive decision';
+            barColor = 'green'; // Green for positive
+        }
+
+        const percentage = (totalScore / maxScore) * 100;
+
+        // Update result, progress bar color, and progress width
+        document.getElementById('result').innerText = `Total Score: ${totalScore} (${decision})`;
+        const scoreBarFill = document.getElementById('scoreBarFill');
+        scoreBarFill.style.width = `${percentage}%`;
+        scoreBarFill.style.backgroundColor = barColor; // Apply the selected color
+    }
+
+    function printDocument() {
+        window.print();
+    }
+</script>
+
+</body>
+</html>
